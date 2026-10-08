@@ -84,7 +84,7 @@ function UserMenu({ user }: { user: AuthUser }) {
             onClick={() => setOpen(false)}
             className="block w-full rounded-md px-2 py-1.5 text-left text-sm text-rise hover:bg-rise-soft"
           >
-            ↩ সাইন আউট
+            ↩&#xFE0E; সাইন আউট
           </button>
         </div>
       )}

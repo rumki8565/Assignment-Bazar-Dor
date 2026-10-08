@@ -21,6 +21,7 @@
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
+  font-family: var(--font-hind), var(--font-emoji), sans-serif;
 }
 
 /* Price ticker (infinite marquee) */
