@@ -42,3 +42,14 @@ export function HomeSkeleton() {
     </div>
   );
 }
+
+export function CategoryListSkeleton() {
+  return (
+    <div role="status" aria-live="polite" className="space-y-3">
+      <span className="sr-only">লোড হচ্ছে…</span>
+      <div className="h-14 animate-pulse rounded-xl bg-line" />
+      <div className="h-3 w-40 animate-pulse rounded bg-line" />
+      <ProductGridSkeleton count={6} />
+    </div>
+  );
+}
