@@ -1,12 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { authClient } from "@/lib/auth-client";
 import type { AuthUser } from "@/types";
 
 function UserMenu({ user }: { user: AuthUser }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,6 +36,21 @@ function UserMenu({ user }: { user: AuthUser }) {
   }, [open]);
 
   const initial = Array.from(user.name.trim())[0] ?? "?";
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    const { error } = await authClient.signOut();
+    setSigningOut(false);
+    setOpen(false);
+
+    if (error) {
+      toast.error("সাইন আউট করা যায়নি। আবার চেষ্টা করুন।");
+      return;
+    }
+    toast.success("সফলভাবে সাইন আউট হয়েছে");
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <div ref={containerRef} className="relative">
@@ -80,11 +100,11 @@ function UserMenu({ user }: { user: AuthUser }) {
           <button
             type="button"
             role="menuitem"
-            // Step 6: call authClient.signOut() here
-            onClick={() => setOpen(false)}
-            className="block w-full rounded-md px-2 py-1.5 text-left text-sm text-rise hover:bg-rise-soft"
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="block w-full rounded-md px-2 py-1.5 text-left text-sm text-rise hover:bg-rise-soft disabled:opacity-60"
           >
-            ↩&#xFE0E; সাইন আউট
+            {signingOut ? "সাইন আউট হচ্ছে…" : "↩\uFE0E সাইন আউট"}
           </button>
         </div>
       )}

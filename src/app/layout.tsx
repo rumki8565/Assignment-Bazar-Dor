@@ -3,6 +3,7 @@ import { Hind_Siliguri, Noto_Color_Emoji } from "next/font/google";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PriceTicker from "@/components/PriceTicker";
+import ToastProvider from "@/components/ToastProvider";
 import { getCategories, getProducts } from "@/lib/api";
 import type { Category, Product } from "@/types";
 import "./globals.css";
@@ -45,6 +46,7 @@ export default async function RootLayout({
         <PriceTicker products={products} />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ToastProvider />
       </body>
     </html>
   );

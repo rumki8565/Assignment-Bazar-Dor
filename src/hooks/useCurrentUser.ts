@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import type { AuthUser } from "@/types";
 
 export interface CurrentUserState {
@@ -7,7 +8,17 @@ export interface CurrentUserState {
   isPending: boolean;
 }
 
-// Placeholder until Step 6 (BetterAuth). It will return authClient.useSession() data.
 export function useCurrentUser(): CurrentUserState {
-  return { user: null, isPending: false };
+  const { data, isPending } = authClient.useSession();
+  const sessionUser = data?.user;
+
+  const user: AuthUser | null = sessionUser
+    ? {
+        name: sessionUser.name,
+        email: sessionUser.email,
+        image: sessionUser.image ?? null,
+      }
+    : null;
+
+  return { user, isPending };
 }
