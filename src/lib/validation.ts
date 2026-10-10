@@ -34,3 +34,14 @@ export function validateSignUp(values: SignUpValues): string | null {
     return "পাসওয়ার্ড দুটি মিলছে না।";
   return null;
 }
+
+export const MAX_NAME_LENGTH = 60;
+
+export function validateName(name: string): string | null {
+  const trimmed = name.trim();
+  if (trimmed.length === 0) return "আপনার নাম লিখুন।";
+  if (trimmed.length > MAX_NAME_LENGTH) {
+    return `নাম সর্বোচ্চ ${toBnDigits(MAX_NAME_LENGTH)} অক্ষরের হতে পারবে।`;
+  }
+  return null;
+}

@@ -1,22 +1,15 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
+import EmptyState from "@/components/EmptyState";
 import MarketPriceTable from "@/components/MarketPriceTable";
 import PriceSummary from "@/components/PriceSummary";
 import ProductHeader from "@/components/ProductHeader";
-import { getProductBySlug, getProducts } from "@/lib/api";
+import { getProductBySlug } from "@/lib/api";
 import { getMarketStats } from "@/lib/products";
+import { requireSession } from "@/lib/session";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
-}
-
-// Only real products exist; any other slug gets the 404 page.
-export const dynamicParams = false;
-
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const products = await getProducts();
-  return products.map((product) => ({ slug: product.slug }));
 }
 
 export async function generateMetadata({
@@ -35,7 +28,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product) notFound();
+  // Unknown product: show the 404 message to everyone (logged in or not).
+  if (!product) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+        <EmptyState
+          code="৪০৪"
+          title="পণ্যটি খুঁজে পাওয়া যায়নি"
+          description="আপনি যে পণ্যটি খুঁজছেন সেটি নেই বা সরিয়ে ফেলা হয়েছে।"
+        />
+      </div>
+    );
+  }
+
+  // Protected: visitors who are not logged in are sent to the sign in page.
+  await requireSession(`/product/${slug}`);
 
   const stats = getMarketStats(product.markets);
 
