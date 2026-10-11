@@ -4,6 +4,8 @@
 
 **প্রয়োজনীয় পণ্যের দাম এক নজরে।**
 
+🌐 [Live Site](https://bazardor-neon.vercel.app) · 💻 [GitHub Repository](https://github.com/rumki8565/Assignment-Bazar-Dor)
+
 ![Next.js](https://img.shields.io/badge/Next.js-App_Router-000000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)
